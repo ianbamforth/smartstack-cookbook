@@ -85,6 +85,11 @@ node.synapse.enabled_services.each do |service_name|
   # set the haproxy port
   synapse_config['haproxy']['port'] = service['local_port']
 
+  # set the haproxy override port if required
+  if service.remote_port
+    synapse_config['haproxy']['server_port_override'] = service['remote_port']
+  end
+
   # enable proper logging
   if synapse_config['haproxy'].include? 'listen'
     if synapse_config['haproxy']['listen'].include? 'mode http'
